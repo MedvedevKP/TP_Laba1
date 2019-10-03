@@ -60,7 +60,7 @@ namespace TP_Laba1
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            this.DragMove();///
         }
     }
 }
