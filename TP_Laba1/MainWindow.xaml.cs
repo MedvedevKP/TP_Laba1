@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Collections;
-using System.IO;
+﻿using App_for_TextData;
 using Microsoft.Win32;
-using App_for_TextData;
+using System;
+using System.Collections;
+using System.Windows;
 
 namespace TP_Laba1
 {
@@ -24,28 +11,49 @@ namespace TP_Laba1
     /// </summary>
     public partial class MainWindow : Window
     {
-      
+        private ArrayList AL;
+
+
         public MainWindow()
         {
             InitializeComponent();
-          
+
         }
 
-        private uint get_coutNumbers()
+        private bool ArrayListGeneration()
         {
-            try {
-                return Convert.ToUInt32(tBox_countElem.Text);
-            }
-            catch(FormatException fe)
+
+            try
             {
-                MessageBox.Show(fe.Message, "Упс...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                uint countItem = Convert.ToUInt32(tBox_countElem.Text);
+
+                AL = new ArrayList();
+                Random rnd1 = new Random();
+                int number;
+                lbMain.Items.Clear();
+                AL.Clear();
+                for (int index = 1; index <= countItem; index++)
+                {
+                    number = -100 + rnd1.Next(200);
+                    AL.Add(number);
+                    lbMain.Items.Add(number);
+
+                }
+
+                if (lbMain.Items.Count != 0 && AL.Count != 0)
+                    return true;
+                else return false;
             }
-            catch(OverflowException oe)
+            catch(Exception excep)
             {
-                MessageBox.Show(oe.Message, "Упс...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Массив не был создан!\n"+excep.Message, "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                lbMain.Items.Clear();
+               
+               
+                return false;
             }
 
-            return 0;
+
         }
 
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
@@ -55,69 +63,40 @@ namespace TP_Laba1
 
         private void Btn_task1_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                ArrayList myAL = new ArrayList();
-                int index;
-                uint itemCount = get_coutNumbers();
-                if (itemCount == 0)
-                    return;
-
-
-                Random rnd1 = new Random();
-                int number;
-                lbMain.Items.Clear();
-                for (index = 1; index <= itemCount; index++)
-                {
-                    number = -100 + rnd1.Next(200);
-                    myAL.Add(number);
-                    lbMain.Items.Add(number);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Необработанная ошибка");
-            }
          
+                ArrayListGeneration();
+    
+
         }
 
         private void Btn_task2_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ArrayList myAL = new ArrayList();
-                int index;
-                uint itemCount = get_coutNumbers();
-                if (itemCount == 0)
-                    return;
-                Random rnd1 = new Random();
-                int number;
-                lbMain.Items.Clear();
-                lbMain.Items.Add("Исходный массив");
-                for (index = 1; index <= itemCount; index++)
+                lbMain.Items.Add("Неотсортированный массив:");
+                if (ArrayListGeneration())
                 {
-                    number = -100 + rnd1.Next(200);
-                    myAL.Add(number);
-                    lbMain.Items.Add(number);
+                    AL.Sort();
+                    lbMain.Items.Add("Отсортированный массив");
+                    foreach (int elem in AL)
+                    {
+                        lbMain.Items.Add(elem);
+                    }
                 }
-                myAL.Sort();
-                lbMain.Items.Add("Отсортированный массив");
-                foreach (int elem in myAL)
-                {
-                    lbMain.Items.Add(elem);
-                }
+                else
+                    AL.Clear();
             }
-            catch (FormatException fe)
+            catch (Exception fe)
             {
                 MessageBox.Show(fe.Message, "ой...", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            //}
+         
         }
 
         private void Btn_save_Click(object sender, RoutedEventArgs e)
         {
 
-            if(lbMain.Items.Count == 0)
+            if (lbMain.Items.Count == 0)
             {
                 MessageBox.Show("Список пустой!", "", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -143,33 +122,20 @@ namespace TP_Laba1
         {
             try
             {
-                ArrayList myAL = new ArrayList();
-                int index;
-                uint itemCount = get_coutNumbers();
-                if (itemCount == 0)
-                    return;
-                Random rnd1 = new Random();
-                int number;
-                lbMain.Items.Clear();
-             
-                for (index = 1; index <= itemCount; index++)
+                if (ArrayListGeneration())
                 {
-                    number = -100 + rnd1.Next(200);
-                    myAL.Add(number);
-                    lbMain.Items.Add(number);
-                }
+                    int count = 0;
+                    for (int i = 1; i < AL.Count - 1; i++)
+                    {
+                        if (Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[i + 1]) && Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[i - 1]))
+                            count++;
+                    }
 
-                int count = 0;
-                for(int i=1; i < myAL.Count - 1; i++)
-                {
-                    if (Convert.ToInt32(myAL[i]) > Convert.ToInt32(myAL[i + 1]) && Convert.ToInt32(myAL[i]) > Convert.ToInt32(myAL[i - 1]))
-                        count++;
+                    MessageBox.Show("Количество элементов массива больше своих «соседей»: " + count.ToString());
                 }
-
-                MessageBox.Show("Количество элементов массива больше своих «соседей»: " + count.ToString());
 
             }
-            catch (FormatException fe)
+            catch (Exception fe)
             {
                 MessageBox.Show(fe.Message, "ой...", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
@@ -179,30 +145,23 @@ namespace TP_Laba1
         {
             try
             {
-                ArrayList myAL = new ArrayList();
-                int index;
-                int myIndex = -1;
-                uint itemCount = get_coutNumbers();
-                if (itemCount == 0)
-                    return;
-                Random rnd1 = new Random();
-                int number;
-                lbMain.Items.Clear();
-
-                for (index = 0; index < itemCount; index++)
+ 
+                int myIndex = 0;
+                if (ArrayListGeneration())
                 {
-                    number = -100 + rnd1.Next(200);
-                    myAL.Add(number);
-                    lbMain.Items.Add(number);
 
-                    if (number > 25 && myIndex == -1)
-                        myIndex = index;
+                    foreach (int elem in AL)
+                    {
 
+                        if (elem > 25)
+                        {
+                            MessageBox.Show("Первый элемент бельше 25 встречается на позиции:" + myIndex.ToString());
+                            break;
+                        }
+                        myIndex++;
+
+                    }
                 }
-
-               
-
-                MessageBox.Show("Первый элемент бельше 25 встречается на позиции:" + myIndex.ToString());
 
             }
             catch (FormatException fe)
@@ -215,43 +174,30 @@ namespace TP_Laba1
         {
             try
             {
-                ArrayList myAL = new ArrayList();
-                int index;
-                uint itemCount = get_coutNumbers();
-                if (itemCount == 0)
-                    return;
-                Random rnd1 = new Random();
-                int number;
-                lbMain.Items.Clear();
 
-                for (index = 0; index < itemCount; index++)
+                if (ArrayListGeneration())
                 {
-                    number = -100 + rnd1.Next(200);
-                    myAL.Add(number);
-                    lbMain.Items.Add(number);
 
-                }
+                    int summ = 0;
 
-                int summ = 0;
-
-                for(int i=0; i < myAL.Count; i++)
-                {
-                    if(Convert.ToInt32(myAL[i]) > Convert.ToInt32(myAL[1]))
+                    for (int i = 0; i < AL.Count; i++)
                     {
-                        summ += Convert.ToInt32(myAL[i]);
+                        if (Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[1]))
+                        {
+                            summ += Convert.ToInt32(AL[i]);
+                        }
                     }
+
+                        MessageBox.Show("сумма элементов больших, чем " + AL[1].ToString() + " (второй элемент этого массива):" + summ.ToString());
+
                 }
-
-                if(itemCount > 0)
-                MessageBox.Show("сумма элементов больших, чем "+myAL[1].ToString()+" (второй элемент этого массива):" + summ.ToString());
-
             }
             catch (FormatException fe)
             {
                 MessageBox.Show(fe.Message, "ой...", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
-            catch(OverflowException oe)
+            catch (OverflowException oe)
             {
                 MessageBox.Show(oe.Message, "ой...", MessageBoxButton.OK, MessageBoxImage.Warning);
 
@@ -261,135 +207,93 @@ namespace TP_Laba1
 
         private void Btn_task6_Click(object sender, RoutedEventArgs e)
         {
-         
 
-            myInputBox myIB = new myInputBox(0);
-           if( myIB.ShowDialog().Value==true)
-            {
-                int tmp = myIB.K;
+            if (ArrayListGeneration()){
 
-                try
+                myInputBox myIB = new myInputBox(0);
+                if (myIB.ShowDialog().Value == true)
                 {
-                    ArrayList myAL = new ArrayList();
-                    int index;
-                    int myIndex = -1;
-                    uint itemCount = get_coutNumbers();
-                    if (itemCount == 0)
-                        return;
-                    Random rnd1 = new Random();
-                    int number;
-                    lbMain.Items.Clear();
+                    int tmp = myIB.K;
 
-                    for (index = 0; index < itemCount; index++)
+
+                    for (int index = 0; index < AL.Count; index++)
                     {
-                        number = -100 + rnd1.Next(200);
-                        myAL.Add(number);
-                        lbMain.Items.Add(number);
 
-                        if (number > tmp && myIndex == -1)
-                            myIndex = index;
+                        if ((int)AL[index] > tmp)
+
+                        {
+                            MessageBox.Show("Первый элемент бельше " + tmp + " встречается на позиции:" + index.ToString());
+                            break;
+                        }
 
                     }
-
-
-
-                    MessageBox.Show("Первый элемент бельше "+tmp+" встречается на позиции:" + myIndex.ToString());
-
                 }
-                catch (FormatException fe)
-                {
-                    MessageBox.Show(fe.ToString(), "ой...", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-
             }
+ 
         }
 
         private void Btn_task7_Click(object sender, RoutedEventArgs e)
         {
 
 
-            myInputBox myIB = new myInputBox(0);
-            if (myIB.ShowDialog().Value == true)
-            {
-                int tmp = myIB.K;
+            if (ArrayListGeneration()){
 
-                try
+                myInputBox myIB = new myInputBox(0);
+                if (myIB.ShowDialog().Value == true)
                 {
-                    ArrayList myAL = new ArrayList();
-                    int index;
-                    int summ = 0;
-                    uint itemCount = get_coutNumbers();
-                    if (itemCount == 0)
-                        return;
-                    if (tmp >= itemCount || tmp < 0)
+                    int tmp = myIB.K;
+
+                    if (tmp >= AL.Count || tmp < 0)
                     {
                         MessageBox.Show("Операция не выполнима, так как элемента с заданными индексом нет!", "Упсс...", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
-                    Random rnd1 = new Random();
-                    int number;
-                    lbMain.Items.Clear();
 
-                    for (index = 0; index < itemCount; index++)
+                    int summ = 0;
+
+                    for (int i = 0; i < AL.Count; i++)
                     {
-                        number = -100 + rnd1.Next(200);
-                        myAL.Add(number);
-                        lbMain.Items.Add(number);
-
-                    }
-
-                    for (int i=0; i < myAL.Count; i++)
-                    {
-                        if (Convert.ToInt32(myAL[i]) > Convert.ToInt32(myAL[tmp]))
-                            summ += Convert.ToInt32(myAL[i]);
+                        if (Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[tmp]))
+                            summ += Convert.ToInt32(AL[i]);
                     }
 
 
 
-                    MessageBox.Show("сумма элементов больших, чем " + myAL[tmp].ToString() + "(встречается на позиции "+tmp.ToString()+ "):" + summ.ToString());
+                    MessageBox.Show("сумма элементов больших, чем " + AL[tmp].ToString() + "(встречается на позиции " + tmp.ToString() + "):" + summ.ToString());
+
+
 
                 }
-                catch (FormatException fe)
-                {
-                    MessageBox.Show(fe.Message, "ой...", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-
             }
-        }
+         }
+
+
+           
+
+      
 
         private void Btn_task8_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ArrayList myAL = new ArrayList();
-                int index;
-                uint itemCount = get_coutNumbers();
-                if (itemCount == 0)
-                    return;
-                Random rnd1 = new Random();
-                int number;
-                lbMain.Items.Clear();
 
-                for (index = 1; index <= itemCount; index++)
+                if (ArrayListGeneration())
                 {
-                    number = -100 + rnd1.Next(200);
-                    myAL.Add(number);
-                    lbMain.Items.Add(number);
-                }
 
-            
-                for (int i=1; i < myAL.Count-1; i++)
-                {
-                    if (Convert.ToInt32(myAL[i]) > Convert.ToInt32(myAL[i + 1]) && Convert.ToInt32(myAL[i]) > Convert.ToInt32(myAL[i - 1]))
+
+                    for (int i = 1; i < AL.Count - 1; i++)
                     {
-                       
-                        lbMain.SelectedItems.Add(myAL[i]);
-                       
+                        if (Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[i + 1]) && Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[i - 1]))
+                        {
+
+                            lbMain.SelectedItems.Add(AL[i]);
+
+                        }
+
                     }
 
+                    MessageBox.Show("Количество элементов массива больше своих «соседей»: " + lbMain.SelectedItems.Count.ToString());
                 }
-
-                MessageBox.Show("Количество элементов массива больше своих «соседей»: " + lbMain.SelectedItems.Count.ToString());
 
             }
             catch (FormatException fe)
@@ -403,7 +307,20 @@ namespace TP_Laba1
             WindowAbout wa = new WindowAbout();
             wa.ShowDialog();
 
-            
+
+        }
+
+        private void Btn_CgeateChart_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                chart wndChart = new chart(AL);
+                wndChart.Show();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
