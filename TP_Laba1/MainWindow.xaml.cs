@@ -322,5 +322,43 @@ namespace TP_Laba1
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void Btn_Get_Task2_Click(object sender, RoutedEventArgs e)
+        {
+            if(ArrayListGeneration())
+            {
+                uint count_number = 0;
+                try
+                {
+                    for (int i = 0; i < AL.Count; i++)
+                    {
+                        int tmp_beg = i - 1, tmp_end = i + 1;
+                        if (i == 0)
+                        {
+                            tmp_beg = AL.Count - 1;
+                            //tmp_end = i + 1;
+                        }
+                        else if (i == AL.Count - 1)
+                        {
+                            // tmp_beg = i - 1;
+                            tmp_end = 0;
+                        }
+
+                        if (Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[tmp_beg]) && Convert.ToInt32(AL[i]) > Convert.ToInt32(AL[tmp_end]))
+                            count_number++;
+
+
+
+                }
+
+                    MessageBox.Show("Количество элементов массива больше своих «соседей»: " + count_number.ToString());
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "");
+                }
+            }
+
+        }
     }
 }
