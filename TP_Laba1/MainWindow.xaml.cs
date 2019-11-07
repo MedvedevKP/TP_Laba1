@@ -56,6 +56,14 @@ namespace TP_Laba1
 
         }
 
+        private double get_expected_value(ArrayList arrList)
+        {
+            int sum = 0;
+            foreach (int elem in arrList)
+                sum += elem;
+            return Convert.ToDouble(sum / arrList.Count);
+        }
+
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -359,6 +367,32 @@ namespace TP_Laba1
                 }
             }
 
+        }
+        /*Для массива из K чисел найти номер первого элемента, значение которого больше математического ожидания значений элементов массива.*/
+        private void Btn_Git_Task3_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (ArrayListGeneration())
+                {
+                    int index = 0;
+                    double ev = get_expected_value(AL);
+
+                    for (int i = 0; i < AL.Count; i++)
+                        if (Convert.ToDouble(AL[i]) > ev)
+                        {
+                            index = i;
+                            break;
+                        }
+                    MessageBox.Show("Математическое ожидание: " + ev.ToString() + "\n" +
+                        "Позиция первого, который больше мат. ожидания: " + index.ToString()
+                   );
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
