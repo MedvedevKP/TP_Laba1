@@ -56,6 +56,19 @@ namespace TP_Laba1
 
         }
 
+        //private bool isSq(ArrayList arrList, int index, int n)
+        //{
+            
+           
+                
+
+            
+
+
+
+      
+        //}
+
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -359,6 +372,51 @@ namespace TP_Laba1
                 }
             }
 
+        }
+
+        /// <summary>
+        /// Дан массив из K чисел. Сколько элементов массива составляют со своими соседями упорядоченную последовательность. Первый и последний элементы массива считаются соседними.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void Btn_Git_Task4_Click(object sender, RoutedEventArgs e)
+        {
+            if(ArrayListGeneration())
+            {
+                try
+                {
+                    int count_number = 0;
+                    for (int i = 0; i < AL.Count; i++)
+                    {
+                        ///<summary>
+                        ///указываем на предыдущий элемент
+                        ///</summary>
+                        int tmp_beg = i - 1
+                            ///<summary>
+                            ///указываем на следующий элемент
+                            ///</summary>
+                            , tmp_end = i + 1; 
+                        if (i == 0)
+                        {
+                            tmp_beg = AL.Count - 1;
+                            //tmp_end = i + 1;
+                        }
+                        else if (i == AL.Count - 1)
+                        {
+                            // tmp_beg = i - 1;
+                            tmp_end = 0;
+                        }
+
+                        if ((int)AL[tmp_beg] < (int)AL[i] && (int)AL[i] < (int)AL[tmp_end] ||
+                            (int)AL[tmp_beg] > (int)AL[i] && (int)AL[i] > (int)AL[tmp_end])
+                            count_number++;
+
+                    }
+
+                    MessageBox.Show(count_number.ToString() + " чисел образуют со своими соседями упорядоченную пару.");
+                    }catch (Exception exc) { MessageBox.Show(exc.Message); }
+            }
         }
     }
 }

@@ -34,7 +34,7 @@
                 <Separator/>
                 <Button Margin="5" Padding="15 0" x:Name="Btn_CgeateChart" Content="Построить гистограмму"  Click="Btn_CgeateChart_Click"/>
                 <Button Margin="5" Padding="15 0" Name="Btn_Get_Task2" Content="Task 2" Click="Btn_Get_Task2_Click"></Button>
-
+                <Button Margin="5" Padding="15 0" Name="Btn_Git_Task4" Content="Task 4 (упоряд. посл.)" Click="Btn_Git_Task4_Click"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Grid.Column="0" Margin="5" HorizontalAlignment="Center">
