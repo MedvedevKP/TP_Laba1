@@ -421,5 +421,42 @@ namespace TP_Laba1
                 MessageBox.Show(ex.Message);
             }
         }
+
+        //Task 7 in Moodle
+        private void Btn_Git_Task5_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(ArrayListGeneration())
+                {
+                    double ev = get_expected_value(AL);
+                    double devation_ev_forALL = 0; //Отклонение всех элементов
+
+                    foreach (int al in AL)
+                        devation_ev_forALL += al - ev;
+
+                    devation_ev_forALL /= 2;
+                    MessageBox.Show("Мат. ожидание: " + ev.ToString() + "\n" +
+                        "Половина отклонения всех элементов от мат. ожидания: " + devation_ev_forALL.ToString());
+
+                    lbMain.Items.Add("Измененные данные:");
+                    foreach(int al in AL)
+                    {
+                        if (al > devation_ev_forALL)
+                            lbMain.Items.Add(al.ToString() + " --> " + ev.ToString());
+                        else
+                            lbMain.Items.Add(al.ToString());
+
+                    }
+
+
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
