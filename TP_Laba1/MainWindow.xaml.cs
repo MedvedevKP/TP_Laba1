@@ -6,13 +6,38 @@ using System.Windows;
 
 namespace TP_Laba1
 {
+    //public class myArrayList<T> : ArrayList
+    //{
+    //    public  override object this[int index]
+    //        {
+    //        get {
+
+    //            if (index >= 0 && index < this.Count)
+    //                return this[index];
+    //            else
+    //                return this[index % this.Count];
+            
+    //        }
+
+    //        set { this[index] = value; }
+    //        }
+              
+
+    //   };
+
+
+
+
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    /// 
+ public partial class MainWindow : Window
     {
         private ArrayList AL;
 
+      
 
         public MainWindow()
         {
@@ -56,18 +81,18 @@ namespace TP_Laba1
 
         }
 
-        //private bool isSq(ArrayList arrList, int index, int n)
-        //{
-            
-           
-                
+  
+       
+        private int get_element(ArrayList arr, int index)
+        {
+            if (index >= 0 && index < arr.Count)
+                return (int)arr[index];
+            else if (index > 0)
+                return (int)arr[index % arr.Count];
+            else
+                return (int)arr[arr.Count - (Math.Abs(index)) % arr.Count];
+        }
 
-            
-
-
-
-      
-        //}
 
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
         {
@@ -416,6 +441,41 @@ namespace TP_Laba1
 
                     MessageBox.Show(count_number.ToString() + " чисел образуют со своими соседями упорядоченную пару.");
                     }catch (Exception exc) { MessageBox.Show(exc.Message); }
+            }
+        }
+
+
+        /// <summary>
+        /// Дан массив из K чисел. Сколько элементов массива составляют со своими соседями и их соседями (от i-2 до i+2, где i - индекс позиция текущего элемента ) упорядоченную последовательность. Первый и последний элементы массива считаются соседними.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_Git_Task5_Click(object sender, RoutedEventArgs e)
+        {
+           if(ArrayListGeneration())
+            {
+             
+                try
+                {
+                    int count = 0;
+                   
+                    for(int i=0; i < AL.Count; i++)
+                    {
+                        if (get_element(AL, i + 2) < get_element(AL, i - 1) && get_element(AL, i - 1) < get_element(AL, i) && get_element(AL, i) < get_element(AL, i + 1) && get_element(AL, i + 1) < get_element(AL, i + 2) ||
+                            get_element(AL, i - 2) > get_element(AL, i - 1) && get_element(AL, i - 1) > get_element(AL, i) && get_element(AL, i) > get_element(AL, i + 1) && get_element(AL, i + 1) > get_element(AL, i + 2))
+                        {
+                            count++;
+                            lbMain.SelectedItems.Add(AL[i]);
+                        }
+                    }
+                   
+
+
+
+                    MessageBox.Show(count.ToString() + " чисел образуют упорядоченную последовательность со своими соседями (i+2 и i-2).");
+                }
+                catch(Exception ex)
+                { MessageBox.Show(ex.Message); }
             }
         }
     }
