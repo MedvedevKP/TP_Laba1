@@ -20,6 +20,7 @@ namespace TP_Laba1
 
         }
 
+        //генерация массива
         private bool ArrayListGeneration()
         {
 
@@ -56,6 +57,8 @@ namespace TP_Laba1
 
         }
 
+
+        //вычисление мат. ожидания
         private double get_expected_value(ArrayList arrList)
         {
             int sum = 0;
@@ -387,6 +390,30 @@ namespace TP_Laba1
                     MessageBox.Show("Математическое ожидание: " + ev.ToString() + "\n" +
                         "Позиция первого, который больше мат. ожидания: " + index.ToString()
                    );
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Btn_Git_Task4_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(ArrayListGeneration())
+                {
+                    double ev = get_expected_value(AL);
+                    MessageBox.Show("Мат. ожидание: " + ev.ToString());
+
+                    lbMain.Items.Add("Отклонение от мат. ожидания для каждого значения:");
+
+                    foreach(int arr in AL)
+                    {
+                        lbMain.Items.Add(arr.ToString() + " --> " + Convert.ToString(arr - ev));
+                    }
+
                 }
             }
             catch(Exception ex)

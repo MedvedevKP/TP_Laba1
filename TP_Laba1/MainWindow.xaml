@@ -35,6 +35,7 @@
                 <Button Margin="5" Padding="15 0" x:Name="Btn_CgeateChart" Content="Построить гистограмму"  Click="Btn_CgeateChart_Click"/>
                 <Button Margin="5" Padding="15 0" Name="Btn_Get_Task2" Content="Task 2" Click="Btn_Get_Task2_Click"></Button>
                 <Button Margin="5" Padding="15 0" Name="Btn_Git_Task3" Content="Task 3 (мат. ожидание)" Click="Btn_Git_Task3_Click"/>
+                <Button Margin="5" Padding="15 0" Name="Btn_Git_Task4" Content="Task 4 (Замена на мат. ожид" Click="Btn_Git_Task4_Click"/>
 
             </StackPanel>
 
