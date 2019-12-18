@@ -67,6 +67,19 @@ namespace TP_Laba1
             return Convert.ToDouble(sum / arrList.Count);
         }
 
+
+        private double max_ev(ArrayList tAL)
+        {
+            double ev = get_expected_value(tAL);
+            double evMax = Math.Abs((int)tAL[0] - ev);
+            foreach(int elem in tAL)
+            {
+                double tVal = Math.Abs(elem - ev);
+                if (tVal > evMax) evMax = tVal;
+            }
+            return evMax;
+        }
+
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -452,6 +465,36 @@ namespace TP_Laba1
 
                 }
 
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //task 8
+        private void Btn_Git_Task6_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(ArrayListGeneration())
+                {
+                    double evMax = max_ev(AL);
+                    double ev = get_expected_value(AL);
+                    lbMain.Items.Add("Мат. ожижание: " + ev);
+                    lbMain.Items.Add("Макс. отклонение: " + evMax);
+                    lbMain.Items.Add("Измененные данные: ");
+                    foreach(int elem in AL)
+                    {
+                        double devEV = elem - ev;
+                        if (devEV > evMax / 2)
+                            lbMain.Items.Add(elem.ToString() + " --> " + ev.ToString());
+                        else
+                            lbMain.Items.Add(elem);
+                    }
+
+
+                }
             }
             catch(Exception ex)
             {
